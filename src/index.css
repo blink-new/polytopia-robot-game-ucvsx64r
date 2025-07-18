@@ -1,0 +1,630 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 45.4 93.4% 47.5%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: Inter, sans-serif;
+}
+
+/* Custom hex grid styles */
+.hex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  font-family: Inter, sans-serif;
+  list-style-type: none;
+}
+
+.hex {
+  position: relative;
+  visibility: hidden;
+  outline: 1px solid transparent;
+}
+
+.hex::after {
+  content: '';
+  display: block;
+  padding-bottom: 86.602%;
+}
+
+.hex-inner {
+  position: absolute;
+  width: 96%;
+  padding-bottom: 110.851%;
+  margin: 2%;
+  overflow: hidden;
+  visibility: visible;
+  outline: 1px solid transparent;
+  transform: rotate3d(0, 0, 1, -60deg) skewY(30deg);
+}
+
+.hex-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  font-weight: 300;
+  transform: skewY(-30deg) rotate3d(0, 0, 1, 60deg) translate(-50%, -50%);
+}
+
+/* 3D Hex Tile Styles */
+.hex-tile-3d {
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 30%));
+  transform-style: preserve-3d;
+  transition: all 0.2s ease;
+}
+
+.hex-tile-3d:hover {
+  transform: translateY(-2px) rotateX(5deg);
+  filter: drop-shadow(0 8px 16px rgb(0 0 0 / 40%));
+}
+
+.hex-tile-selected {
+  transform: translateY(-3px) rotateX(8deg);
+  filter: drop-shadow(0 12px 24px rgb(59 130 246 / 50%));
+}
+
+/* 3D Polytopia-Style Robot Units */
+.unit-3d {
+  filter: drop-shadow(0 12px 24px rgb(0 0 0 / 60%));
+  transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: perspective(200px) rotateX(25deg) rotateY(-15deg);
+}
+
+.unit-3d:hover {
+  transform: perspective(200px) translateY(-8px) rotateX(35deg) rotateY(-10deg) scale(1.15);
+  filter: drop-shadow(0 20px 40px rgb(0 0 0 / 80%));
+}
+
+/* Polytopia-style 3D robot chassis with authentic depth */
+.robot-chassis-player {
+  background: 
+    /* Primary metallic gradient */
+    linear-gradient(135deg, #93c5fd 0%, #60a5fa 15%, #3b82f6 35%, #2563eb 55%, #1d4ed8 75%, #1e40af 90%, #1e3a8a 100%),
+    /* Top highlight for 3D effect */
+    linear-gradient(180deg, rgb(255 255 255 / 60%) 0%, rgb(255 255 255 / 20%) 20%, transparent 40%),
+    /* Side panel shading */
+    linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 10%) 30%, rgb(0 0 0 / 20%) 70%, rgb(0 0 0 / 30%) 100%);
+  box-shadow: 
+    /* Main chassis shadow */
+    0 12px 24px rgb(0 0 0 / 50%),
+    /* Inner top highlight */
+    inset 0 4px 8px rgb(255 255 255 / 40%),
+    /* Inner bottom shadow */
+    inset 0 -4px 8px rgb(0 0 0 / 40%),
+    /* Left side highlight */
+    inset -3px 0 6px rgb(255 255 255 / 25%),
+    /* Right side shadow */
+    inset 3px 0 6px rgb(0 0 0 / 25%),
+    /* Bottom edge definition */
+    inset 0 -2px 4px rgb(0 0 0 / 50%),
+    /* Outer energy glow */
+    0 0 30px rgb(59 130 246 / 30%),
+    /* Secondary glow */
+    0 0 60px rgb(59 130 246 / 15%);
+  border: 2px solid rgb(255 255 255 / 40%);
+  border-radius: 20%;
+}
+
+.robot-chassis-enemy {
+  background: 
+    /* Primary metallic gradient */
+    linear-gradient(135deg, #fca5a5 0%, #f87171 15%, #ef4444 35%, #dc2626 55%, #b91c1c 75%, #991b1b 90%, #7f1d1d 100%),
+    /* Top highlight for 3D effect */
+    linear-gradient(180deg, rgb(255 255 255 / 60%) 0%, rgb(255 255 255 / 20%) 20%, transparent 40%),
+    /* Side panel shading */
+    linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 10%) 30%, rgb(0 0 0 / 20%) 70%, rgb(0 0 0 / 30%) 100%);
+  box-shadow: 
+    /* Main chassis shadow */
+    0 12px 24px rgb(0 0 0 / 50%),
+    /* Inner top highlight */
+    inset 0 4px 8px rgb(255 255 255 / 40%),
+    /* Inner bottom shadow */
+    inset 0 -4px 8px rgb(0 0 0 / 40%),
+    /* Left side highlight */
+    inset -3px 0 6px rgb(255 255 255 / 25%),
+    /* Right side shadow */
+    inset 3px 0 6px rgb(0 0 0 / 25%),
+    /* Bottom edge definition */
+    inset 0 -2px 4px rgb(0 0 0 / 50%),
+    /* Outer energy glow */
+    0 0 30px rgb(239 68 68 / 30%),
+    /* Secondary glow */
+    0 0 60px rgb(239 68 68 / 15%);
+  border: 2px solid rgb(255 255 255 / 40%);
+  border-radius: 20%;
+}
+
+/* 3D Robot armor plating effects */
+.robot-armor-segments {
+  background: 
+    /* Segmented armor pattern */
+    repeating-linear-gradient(45deg, 
+      transparent 0, 
+      transparent 2px, 
+      rgb(255 255 255 / 10%) 2px, 
+      rgb(255 255 255 / 10%) 4px
+    ),
+    /* Base metallic surface */
+    linear-gradient(135deg, rgb(255 255 255 / 20%) 0%, transparent 50%, rgb(0 0 0 / 20%) 100%);
+}
+
+/* Enhanced robot joint details */
+.robot-joints {
+  background: radial-gradient(circle, rgb(255 255 255 / 80%) 0%, rgb(255 255 255 / 40%) 30%, transparent 60%);
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 60%),
+    inset 0 -1px 2px rgb(0 0 0 / 40%),
+    0 1px 3px rgb(0 0 0 / 30%);
+}
+
+/* 3D Weapon attachments */
+.robot-weapon-mount {
+  background: 
+    linear-gradient(90deg, rgb(255 255 255 / 30%) 0%, rgb(255 255 255 / 10%) 50%, rgb(0 0 0 / 20%) 100%);
+  box-shadow: 
+    inset 0 2px 4px rgb(255 255 255 / 30%),
+    inset 0 -2px 4px rgb(0 0 0 / 30%),
+    0 2px 6px rgb(0 0 0 / 40%);
+}
+
+/* 3D Terrain Effects */
+.terrain-mountain {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%);
+  filter: drop-shadow(0 6px 12px rgb(0 0 0 / 50%));
+}
+
+.terrain-water {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  filter: drop-shadow(0 2px 8px rgb(14 165 233 / 40%));
+  animation: water-shimmer 3s ease-in-out infinite;
+}
+
+.terrain-forest {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 50%, #166534 100%);
+  filter: drop-shadow(0 4px 10px rgb(22 163 74 / 30%));
+}
+
+.terrain-city {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+  filter: drop-shadow(0 8px 16px rgb(139 92 246 / 40%));
+  animation: city-glow 2s ease-in-out infinite alternate;
+}
+
+/* Game-specific animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgb(59 130 246 / 50%);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgb(59 130 246 / 80%);
+  }
+}
+
+.selected-hex {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Enhanced Polytopia-style Robot unit animations */
+@keyframes robot-hover {
+  0%, 100% {
+    transform: translateY(0) rotateX(15deg) rotateY(-10deg) rotateZ(0deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotateX(18deg) rotateY(-8deg) rotateZ(1deg);
+  }
+}
+
+.robot-unit {
+  animation: robot-hover 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+
+  /* Isometric perspective like Polytopia */
+  transform-origin: center bottom;
+}
+
+/* Robot chassis details - different types have different 3D characteristics */
+.robot-warrior {
+  /* Bulky, armored appearance */
+  border-radius: 20% 20% 15% 15%;
+  transform: rotateX(15deg) rotateY(-10deg) scaleY(1.1);
+}
+
+.robot-scout {
+  /* Sleek, agile appearance */
+  border-radius: 25% 25% 20% 20%;
+  transform: rotateX(12deg) rotateY(-8deg) scaleY(0.95) scaleX(0.9);
+}
+
+.robot-defender {
+  /* Wide, defensive stance */
+  border-radius: 15% 15% 10% 10%;
+  transform: rotateX(18deg) rotateY(-12deg) scaleY(1.2) scaleX(1.1);
+}
+
+/* Polytopia-style robot body segments */
+.robot-body-segment {
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+  box-shadow: inherit;
+}
+
+/* Robot head (top segment) */
+.robot-head {
+  width: 60%;
+  height: 40%;
+  top: -10%;
+  left: 20%;
+  transform: rotateX(-5deg) translateZ(4px);
+  border-radius: 50% 50% 40% 40%;
+}
+
+/* Robot torso (middle segment) */
+.robot-torso {
+  width: 80%;
+  height: 60%;
+  top: 20%;
+  left: 10%;
+  transform: translateZ(2px);
+  border-radius: 30% 30% 20% 20%;
+}
+
+/* Robot base (bottom segment) */
+.robot-base {
+  width: 90%;
+  height: 40%;
+  top: 60%;
+  left: 5%;
+  transform: rotateX(5deg) translateZ(-2px);
+  border-radius: 20% 20% 50% 50%;
+  opacity: 90%;
+}
+
+/* Water animation */
+@keyframes water-shimmer {
+  0%, 100% {
+    filter: drop-shadow(0 2px 8px rgb(14 165 233 / 40%)) brightness(1);
+  }
+
+  50% {
+    filter: drop-shadow(0 2px 8px rgb(14 165 233 / 60%)) brightness(1.1);
+  }
+}
+
+/* City glow animation */
+@keyframes city-glow {
+  0% {
+    filter: drop-shadow(0 8px 16px rgb(139 92 246 / 40%)) brightness(1);
+  }
+
+  100% {
+    filter: drop-shadow(0 8px 20px rgb(139 92 246 / 60%)) brightness(1.1);
+  }
+}
+
+/* Turn indicator animation */
+@keyframes turn-flash {
+  0%, 100% {
+    opacity: 100%;
+  }
+
+  50% {
+    opacity: 60%;
+  }
+}
+
+.turn-indicator {
+  animation: turn-flash 1.5s ease-in-out infinite;
+}
+
+/* 3D Health Bar */
+.health-bar-3d {
+  background: linear-gradient(90deg, #1f2937 0%, #374151 100%);
+  border-radius: 2px;
+  box-shadow: 
+    inset 0 1px 2px rgb(0 0 0 / 30%),
+    0 1px 2px rgb(255 255 255 / 10%);
+}
+
+.health-fill-3d {
+  border-radius: 2px;
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 30%),
+    0 1px 2px rgb(0 0 0 / 20%);
+}
+
+/* 3D Resource Indicator */
+.resource-indicator-3d {
+  background: radial-gradient(circle, #fbbf24 0%, #f59e0b 70%, #d97706 100%);
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 40%),
+    0 2px 4px rgb(251 191 36 / 40%);
+}
+
+/* Level indicator 3D */
+.level-indicator-3d {
+  background: radial-gradient(circle, #fbbf24 0%, #f59e0b 70%, #d97706 100%);
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 40%),
+    0 3px 6px rgb(251 191 36 / 50%);
+}
+
+/* 3D Perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotate-x-2 {
+  transform: rotateX(2deg);
+}
+
+/* Enhanced game board 3D effects */
+.game-board-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.game-board-3d:hover {
+  transform: rotateX(3deg) rotateY(-1deg) scale(1.02);
+}
+
+/* Floating animation for selected units */
+@keyframes float-selected {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotateX(8deg) rotateY(3deg);
+  }
+}
+
+.unit-selected {
+  animation: float-selected 2s ease-in-out infinite;
+}
+
+/* Terrain depth effects */
+.terrain-grass {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+  filter: drop-shadow(0 2px 6px rgb(34 197 94 / 20%));
+}
+
+/* Enhanced hover effects for interactive elements */
+.hex-interactive:hover {
+  transform: translateY(-1px) rotateX(3deg);
+  transition: all 0.2s ease;
+}
+
+/* Glowing effect for valid moves/attacks */
+.valid-move-glow {
+  animation: move-glow 1.5s ease-in-out infinite alternate;
+}
+
+.valid-attack-glow {
+  animation: attack-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes move-glow {
+  0% {
+    filter: drop-shadow(0 0 8px rgb(34 197 94 / 60%));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 16px rgb(34 197 94 / 90%));
+  }
+}
+
+@keyframes attack-glow {
+  0% {
+    filter: drop-shadow(0 0 8px rgb(239 68 68 / 60%));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 16px rgb(239 68 68 / 90%));
+  }
+}
+
+/* Advanced 3D Robot Effects - Polytopia Style */
+.robot-3d-enhanced {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 200px;
+}
+
+/* Robot antenna/sensors */
+.robot-antenna {
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: linear-gradient(to bottom, #fff 0%, #94a3b8 100%);
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotateX(-10deg);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+}
+
+.robot-antenna::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #22d3ee 0%, #0891b2 100%);
+  top: -2px;
+  left: -1px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgb(34 211 238 / 60%);
+}
+
+/* Robot joints/segments for more realistic 3D look */
+.robot-joint {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: linear-gradient(45deg, #64748b 0%, #475569 100%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 1px 1px rgb(255 255 255 / 30%),
+    0 1px 2px rgb(0 0 0 / 40%);
+}
+
+/* Robot eye/visor effect */
+.robot-visor {
+  position: absolute;
+  width: 70%;
+  height: 20%;
+  top: 25%;
+  left: 15%;
+  background: linear-gradient(90deg, 
+    rgb(34 211 238 / 80%) 0%, 
+    rgb(6 182 212 / 90%) 50%, 
+    rgb(8 145 178 / 80%) 100%);
+  border-radius: 50px;
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 40%),
+    inset 0 -1px 2px rgb(0 0 0 / 30%),
+    0 0 8px rgb(34 211 238 / 40%);
+  transform: rotateX(-5deg) translateZ(3px);
+}
+
+/* Robot weapon/tool attachments */
+.robot-weapon {
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  background: linear-gradient(to bottom, #71717a 0%, #52525b 100%);
+  right: -4px;
+  top: 40%;
+  transform: rotateY(15deg) rotateZ(10deg);
+  border-radius: 2px 2px 1px 1px;
+  box-shadow: 
+    0 2px 4px rgb(0 0 0 / 40%),
+    inset 0 1px 1px rgb(255 255 255 / 20%);
+}
+
+/* Enhanced metallic surface with micro-details */
+.robot-metallic-surface {
+  background: 
+    /* Base metallic gradient */
+    linear-gradient(145deg, 
+      rgb(255 255 255 / 10%) 0%,
+      transparent 25%,
+      rgb(0 0 0 / 10%) 50%,
+      transparent 75%,
+      rgb(255 255 255 / 5%) 100%),
+    /* Underlying color */
+    #64748b;
+  
+  /* Micro-scratches and wear patterns */
+  background-image: 
+    repeating-linear-gradient(45deg, 
+      transparent 0, 
+      rgb(255 255 255 / 2%) 1px, 
+      transparent 2px),
+    repeating-linear-gradient(-45deg, 
+      transparent 0, 
+      rgb(0 0 0 / 2%) 1px, 
+      transparent 2px);
+}
+
+/* Robot power core glow */
+.robot-power-core {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(1px);
+  background: radial-gradient(circle, 
+    rgb(34 211 238 / 90%) 0%, 
+    rgb(6 182 212 / 70%) 40%, 
+    rgb(8 145 178 / 30%) 70%, 
+    transparent 100%);
+  border-radius: 50%;
+  animation: power-core-pulse 2s ease-in-out infinite;
+}
+
+@keyframes power-core-pulse {
+  0%, 100% {
+    box-shadow: 0 0 4px rgb(34 211 238 / 60%);
+    transform: translate(-50%, -50%) translateZ(1px) scale(1);
+  }
+  
+  50% {
+    box-shadow: 0 0 12px rgb(34 211 238 / 90%);
+    transform: translate(-50%, -50%) translateZ(1px) scale(1.2);
+  }
+}
+
+/* Different robot types get different details */
+.robot-type-warrior .robot-weapon {
+  width: 8px;
+  height: 14px;
+  background: linear-gradient(to bottom, #dc2626 0%, #991b1b 100%);
+}
+
+.robot-type-scout .robot-antenna {
+  height: 12px;
+}
+
+.robot-type-scout .robot-visor {
+  width: 80%;
+  left: 10%;
+  background: linear-gradient(90deg, 
+    rgb(34 197 94 / 80%) 0%, 
+    rgb(22 163 74 / 90%) 50%, 
+    rgb(21 128 61 / 80%) 100%);
+  box-shadow: 
+    inset 0 1px 2px rgb(255 255 255 / 40%),
+    inset 0 -1px 2px rgb(0 0 0 / 30%),
+    0 0 8px rgb(34 197 94 / 40%);
+}
+
+.robot-type-defender .robot-weapon {
+  width: 10px;
+  height: 8px;
+  background: linear-gradient(to right, #1e40af 0%, #1e3a8a 100%);
+  transform: rotateY(15deg) rotateZ(0deg);
+  border-radius: 4px 1px 1px 4px;
+}
+
